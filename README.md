@@ -1,6 +1,8 @@
-Cross-lingual Annotation Projection 
+# Cross-lingual Annotation Projection 
+This repository contains the code for translating, generate word alignments and perform annotation
+projection for sequence labelling datasets in the IOB/IOB2/BILOU format.
 
-# Parameters
+##Parameters
 
 ### Source datasets:
 Source datasets in TSV format (see sample/en.absa.test.tsv for an example). 
