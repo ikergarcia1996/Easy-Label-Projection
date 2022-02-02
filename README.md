@@ -23,9 +23,9 @@ python3 annotation_projection.py \
 Source datasets in TSV format (see sample/en.absa.test.tsv for an example). 
 The three splits are optional, but you must provide at least one.
 ````commandline
---source_train
---source_dev
---source_test
+--source_train /path/to/source_train.tsv
+--source_dev /path/to/source_dev.tsv
+--source_test /path/to/source_test.tsv
 ````
 
 ### Target datasets:
@@ -34,9 +34,9 @@ The splits should be parallel (translations) to the corresponding one in the sou
 The splits should contain the same number of sentences that the corresponding source split. 
 The splits are optional, but if you provide a source dataset, you must provide a corresponding target dataset.
 ````commandline
---target_train
---target_dev
---target_test
+--target_train /path/to/target_train.txt
+--target_dev /path/to/target_dev.txt
+--target_test /path/to/target_test.txt
 ````
 
 ### Output directory:
@@ -44,8 +44,8 @@ The output directory where the alignments (talp file) and projections (tsv file)
 The name of the files that will be created. 
 The output files will have the path: {output_dir}/{output_name}.{alignment_method}.{data_split}.[talp|tsv]
 ````commandline
---output_dir
---output_name
+--output_dir /path/to/output/
+--output_name en2es_ner
 ````
 
 ### Alignment method:
@@ -66,7 +66,7 @@ AWESoME model from the output directory after the alignments are generated. You 
 flag to specify the path to a pretrained AWESoME model, we will use this models instead of training a new one.
 ````commandline
 --remove_awesome_model
---awesome_model_path
+--awesome_model_path /path/to/awesome_model_dir
 ````
 
 ### Data Augmentation:
