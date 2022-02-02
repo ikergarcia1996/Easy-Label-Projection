@@ -79,8 +79,8 @@ language of the target dataset. Both datasets should have the same number of sen
 sample/es.txt for an example.
 
 ````commandline
---source_augmentation
---target_augmentation
+--source_augmentation /path/to/source_augmentation.txt
+--target_augmentation /path/to/target_augmentation.txt
 ````
 
 
