@@ -2,6 +2,7 @@
 This repository contains the code for translating, generate word alignments and perform annotation
 projection for sequence labelling datasets in the IOB/IOB2/BILOU format.
 
+<img src="github_images/projection.svg" alt="Demo" width="400"/>
 
 ## Sample Cross-lingual Annotation Projection 
 This is a sample projection run to test the system.
