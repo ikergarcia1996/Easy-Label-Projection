@@ -2,6 +2,20 @@
 This repository contains the code for translating, generate word alignments and perform annotation
 projection for sequence labelling datasets in the IOB/IOB2/BILOU format.
 
+
+## Sample Cross-lingual Annotation Projection 
+This is a sample projection run to test the system.
+````commandline
+python3 annotation_projection.py \
+--source_test sample/en.absa.test.tsv \
+--target_test sample/en2es.absa.test.txt \
+--source_augmentation sample/en.txt \
+--target_augmentation sample/es.txt \
+--output_dir sample/output/ \
+--output_name en2es_absa_test \
+--do_simalign 
+````
+
 ## Parameters
 
 ### Source datasets:
@@ -70,15 +84,4 @@ sample/es.txt for an example.
 
 
 
-# Sample Projection
-This is a sample projection run to test the system.
-````commandline
-python3 annotation_projection.py \
---source_test sample/en.absa.test.tsv \
---target_test sample/en2es.absa.test.txt \
---source_augmentation sample/en.txt \
---target_augmentation sample/es.txt \
---output_dir sample/output/ \
---output_name en2es_absa_test \
---do_simalign 
-````
+
