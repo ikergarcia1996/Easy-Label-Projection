@@ -1,4 +1,4 @@
-#SimAlign: Similarity Based Word Aligner
+# SimAlign: Similarity Based Word Aligner
 This project contains python wrappers to easily generate word alignments using SimALign.
 
 * Paper: https://arxiv.org/pdf/2004.08728.pdf
