@@ -36,5 +36,8 @@ def data2awesome(
     )
     run_bash_command(command)
 
+    command = f"sed -i -r '${{/^[[:space:]]*$/d;}}' {quote(output_path)}"
+    run_bash_command(command)
+
     os.remove(f"{quote(source_path)}.tmp")
     os.remove(f"{quote(target_path)}.tmp")
