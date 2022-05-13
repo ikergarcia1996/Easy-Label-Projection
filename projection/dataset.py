@@ -3,19 +3,26 @@ from typing import Dict, List
 import math
 
 
-def blocks(files, size=65536):
-    while True:
-        b = files.read(size)
-        if not b:
-            break
-        yield b
-
-
-def count_lines(input_path: str, new_line_char="\n") -> int:
+def count_lines(input_path: str) -> int:
     with open(input_path, "r", encoding="utf8") as f:
-        return f.read().count(
-            new_line_char
-        )  # sum(bl.count(new_line_char) for bl in blocks(f))
+        return sum(1 for _ in f)
+
+
+def count_sentence_tsv(input_path: str) -> int:
+    sentences = []
+    lines = []
+    with open(input_path, "r", encoding="utf8") as file:
+        for line in file:
+            line = line.rstrip().strip()
+            if line == "":
+                sentences.append(1)
+                lines = []
+            else:
+                lines.append(line)
+
+        if lines:
+            sentences.append(1)
+    return sum(sentences)
 
 
 class AlignmentDataset(IterableDataset):
@@ -57,7 +64,7 @@ class SourceDataset(IterableDataset):
     def __init__(self, filename: str):
 
         self.filename = filename
-        self.num_lines = count_lines(filename, new_line_char="\n\n")
+        self.num_lines = count_sentence_tsv(filename)
         print(f"Number of sentences in {filename}: {self.num_lines}")
 
     def __iter__(self):
