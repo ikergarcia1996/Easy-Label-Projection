@@ -1,4 +1,9 @@
-from fast_align.utils import data2fastalign, count_lines, run_bash_command
+from fast_align.utils import (
+    data2fastalign,
+    count_lines,
+    run_bash_command,
+    concatenate_files,
+)
 from fast_align.model_utils import align_corpus
 import os
 import argparse
@@ -53,26 +58,23 @@ def generate_word_alignments_fast_align(
             f"Number of lines in {target_path}: {target_lines}. "
         )
 
-    source_path: str = os.path.join(tmp_dir, "source_sentences.txt")
-    target_path: str = os.path.join(tmp_dir, "target_sentences.txt")
+    source_train_path: str = os.path.join(tmp_dir, "source_sentences.txt")
+    target_train_path: str = os.path.join(tmp_dir, "target_sentences.txt")
 
-    command: str = (
-        f"cat {' '.join(source_paths)} "
-        f"{'' if not source_parallel_corpus else ' '.join(source_parallel_corpus)} "
-        f"> {source_path}"
-    )
-    run_bash_command(command)
-    command: str = (
-        f"cat {' '.join(target_paths)} "
-        f"{'' if not target_parallel_corpus else ' '.join(target_parallel_corpus)} "
-        f"> {target_path}"
-    )
-    run_bash_command(command)
+    source_files = source_paths
+    if source_parallel_corpus is not None:
+        source_files += source_parallel_corpus
+    concatenate_files(input_paths=source_paths, output_path=source_train_path)
+
+    target_files = target_paths
+    if target_parallel_corpus is not None:
+        target_files += target_parallel_corpus
+    concatenate_files(input_paths=target_paths, output_path=target_train_path)
 
     print("Data 2 fast align format...")
     data2fastalign(
-        source_path=source_path,
-        target_path=target_path,
+        source_path=source_train_path,
+        target_path=target_train_path,
         output_path=os.path.join(tmp_dir, "dataset.fast_align"),
     )
 

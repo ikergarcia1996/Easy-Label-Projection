@@ -1,23 +1,24 @@
 import subprocess
-from shlex import quote
-import os
+from typing import List
 
 
 def run_bash_command(command: str) -> None:
     subprocess.run(["bash", "-c", command])
 
 
-def blocks(files, size=65536):
-    while True:
-        b = files.read(size)
-        if not b:
-            break
-        yield b
-
-
 def count_lines(input_path: str) -> int:
     with open(input_path, "r", encoding="utf8") as f:
-        return sum(bl.count("\n") for bl in blocks(f))
+        return sum(1 for _ in f)
+
+
+def concatenate_files(input_paths: List[str], output_path: str) -> None:
+    with open(output_path, "w", encoding="utf8") as output_file:
+        for input_path in input_paths:
+            with open(input_path, "r", encoding="utf8") as input_file:
+                for line in input_file:
+                    line = line.strip().rstrip()
+                    if line != "":
+                        print(line, file=output_file)
 
 
 def data2awesome(
@@ -26,18 +27,15 @@ def data2awesome(
     output_path: str,
 ):
 
-    command = f'sed "s/\\t/ /g" {quote(source_path)} > {quote(source_path)}.tmp'
-    run_bash_command(command)
-    command = f'sed "s/\\t/ /g" {quote(target_path)} > {quote(target_path)}.tmp'
-    run_bash_command(command)
-    command = (
-        f'paste -d "\\t" {quote(source_path)}.tmp {quote(target_path)}.tmp |'
-        f' sed "s/\\t/ ||| /g" > {quote(output_path)}'
+    assert count_lines(source_path) == count_lines(target_path), (
+        f"{source_path} and {target_path} should have the same number of lines. "
+        f"{count_lines(source_path)} != {count_lines(target_path)}"
     )
-    run_bash_command(command)
 
-    command = f"sed -i -r '${{/^[[:space:]]*$/d;}}' {quote(output_path)}"
-    run_bash_command(command)
-
-    os.remove(f"{quote(source_path)}.tmp")
-    os.remove(f"{quote(target_path)}.tmp")
+    with open(source_path, "r", encoding="utf8") as source_file, open(
+        target_path, "r", encoding="utf8"
+    ) as target_file, open(output_path, "w", encoding="utf8") as output_file:
+        for source_line, target_line in zip(source_file, target_file):
+            source_line = source_line.strip().replace("\t", " ")
+            target_line = target_line.strip().replace("\t", " ")
+            print(f"{source_line} ||| {target_line}", file=output_file)
