@@ -44,14 +44,14 @@ def generate_word_alignments_mgiza(
         )
 
         lines.append(source_lines)
-
-    for source_path, target_path in zip(source_parallel_corpus, target_parallel_corpus):
-        source_lines: int = count_lines(source_path)
-        target_lines: int = count_lines(target_path)
-        assert source_lines == target_lines, (
-            f"Number of lines in {source_path}: {source_lines}. "
-            f"Number of lines in {target_path}: {target_lines}. "
-        )
+    if source_parallel_corpus and target_parallel_corpus:
+        for source_path, target_path in zip(source_parallel_corpus, target_parallel_corpus):
+            source_lines: int = count_lines(source_path)
+            target_lines: int = count_lines(target_path)
+            assert source_lines == target_lines, (
+                f"Number of lines in {source_path}: {source_lines}. "
+                f"Number of lines in {target_path}: {target_lines}. "
+            )
 
     source_train_path: str = os.path.join(tmp_dir, "source_sentences.txt")
     target_train_path: str = os.path.join(tmp_dir, "target_sentences.txt")

@@ -51,7 +51,7 @@ def generate_word_alignments_awesome(
             f"Number of lines in {target_path}: {target_lines}. "
         )
 
-    if source_parallel_corpus is not None:
+    if source_parallel_corpus and target_parallel_corpus:
         for source_path, target_path in zip(
             source_parallel_corpus, target_parallel_corpus
         ):
