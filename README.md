@@ -13,8 +13,8 @@
 >Looking for our manually/automatically projected ABSA/CoNLL dataset? See [data/](data/)
 
 
-This repository constrains the code to easily project labels from one dataset into another. You can automatically generate 
-dataset for languages for which you do not have any labeled data 🥳  
+This repository contains the code to easily project labels from one dataset into another. You can automatically generate 
+dataset for languages for which you do not have any labelled data 🥳  
 We currently support:
 - [mGiza (giza++)](http://www2.statmt.org/moses/giza/GIZA++.html)
 - [Fast Align](https://aclanthology.org/N13-1073.pdf)
@@ -85,7 +85,7 @@ The splits are optional, but if you provide a source dataset, you must provide a
 ````
 
 ### Output directory:
-The output directory where the alignments (talp file) and projections (tsv file) will be saved.
+The output directory is where the alignments (talp file) and projections (tsv file) will be saved.
 The name of the files that will be created. 
 The output files will have the path: `{output_dir}/{output_name}.{alignment_method}.{data_split}.[talp|tsv]`
 ````commandline
@@ -109,7 +109,7 @@ If you want to modify the parameters of the alignment method, you should modify 
 ````
 If you use AWESoME you can provide two additional flags. "remove_awesome_model" will delete the pretrained 
 AWESoME model from the output directory after the alignments are generated. You can also provide the "awesome_model_path"
-flag to specify the path to a pretrained AWESoME model, we will use this models instead of training a new one.
+flag to specify the path to a pretrained AWESoME model, we will use this model instead of training a new one.
 ````commandline
 --remove_awesome_model
 --awesome_model_path /path/to/awesome_model_dir
@@ -119,7 +119,7 @@ flag to specify the path to a pretrained AWESoME model, we will use this models 
 Your dataset may be too small to be used for training the alignment method. You can 
 provide an extra parallel corpus as data augmentation for training the alignment method. We will
 use both, the provided tain/dev/test splits together with the augmented corpus to train the alignments.
-The augmentation corpus consist of two txt files (a sentence per line), the source data augmentation dataset
+The augmentation corpus consists of two txt files (a sentence per line), and the source data augmentation dataset
 should be in the same language of the source dataset. The target data augmentation dataset should be in the same
 language of the target dataset. Both datasets should have the same number of sentences. See [sample/en.txt](sample/en.txt) and 
 [sample/es.txt](sample/es.txt) for an example.
@@ -128,7 +128,3 @@ language of the target dataset. Both datasets should have the same number of sen
 --source_augmentation /path/to/source_augmentation.txt
 --target_augmentation /path/to/target_augmentation.txt
 ````
-
-
-
-
