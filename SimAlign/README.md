@@ -17,7 +17,7 @@ In short, you can install the package using pip:
 ```commandline
 pip install simalign
 ```
-If you found problems with the installation you can try installing it directly from the source code:
+If you find problems with the installation you can try installing it directly from the source code:
 ```commandline
 pip install --upgrade git+https://github.com/cisnlp/simalign.git#egg=simalign
 ```
