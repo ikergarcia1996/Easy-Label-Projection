@@ -4,6 +4,13 @@ This project contains python wrappers to easily generate word alignments using S
 * Paper: https://arxiv.org/pdf/2004.08728.pdf
 * Official GitHub: https://github.com/cisnlp/simalign
 
+## Batch size and hyperparameters
+The default batch size (100) should be fine for most GPUs. If you get OOM errors, you can reduce it or run SimAlign in the CPU. If 
+you want to modify the batch size edit line 66 of [generate_alignments.py](generate_alignments.py).
+We use the itermax matching method, in our experimentation it was the method that produced the best results. 
+If you want to modify the method to generate alignments edit line 65 of [generate_alignments.py](generate_alignments.py).
+You can also modify other hyperparameters in this file. 
+
 ## Installation
 See the official repository for installation instructions: https://github.com/cisnlp/simalign#installation-and-usage
 In short, you can install the package using pip:

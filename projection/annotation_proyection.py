@@ -3,7 +3,7 @@ import os
 from typing import List, Dict
 from projection.dataset import ProjectionDataloader
 import math
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import string
 
 puncs = set(string.punctuation)

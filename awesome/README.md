@@ -4,8 +4,25 @@ This project contains python wrappers to easily generate word alignments using A
 * Paper: https://arxiv.org/abs/2101.08231
 * Official GitHub: https://github.com/neulab/awesome-align
 
+## Batch size and hyperparameters
+We use the default hyperparameters. We use a batch size of 2 with 4 gradient accumulation steps. It works well on a 24GB GPU. 
+If you have a GPU with >32GB of memory, you can set a batch size of 8 with 1 gradient accumulation step for faster training.
+If you get OOM errors, set batch size to 1 with 8 gradient accumulation steps. To do that, edit lines 11-12 in [model_utils.py](model_utils.py). You can also modify other hyperparameters in this file. 
+
 ## Installation
 See the official repository for installation instructions: https://github.com/neulab/awesome-align#dependencies
+> Note: Newest versions of Nvidia Apex library (for fp16 training) cause errors with AWESOME. As a quick workaround 
+> you can download Apex from github [https://github.com/NVIDIA/apex](https://github.com/NVIDIA/apex) then go to 
+> apex/amp/utils.py and and comment/remove lines 95-99. Then install Apex as usual. This workaround is not ideal,
+> but I have successfully used it. The other option is uninstalling Apex and use native PyTorch AMP (you just need to have pytorch 1.6 or higher installed).
+
+In short, you can install AWESOME using the following commands:
+```commandline
+git clone https://github.com/neulab/awesome-align.git
+cd awesome-align
+pip install -r requirements.txt
+python setup.py install
+```
 
 You are ready to go when the following command produce the expected output:
 ````commandline

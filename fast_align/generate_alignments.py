@@ -19,10 +19,12 @@ def generate_word_alignments_fast_align(
     output_names: List[str],
     source_parallel_corpus: List[str] = None,
     target_parallel_corpus: List[str] = None,
-    tmp_dir: str = f"tmp_dir_fastalign_{str(uuid.uuid4().hex)}",
+    tmp_dir: str = None,
     remove_tmp_dir: bool = True,
     fast_align_dir="fast_align/fast_align/build",
 ):
+    if tmp_dir is None:
+        tmp_dir = os.path.join(output_dir, f"tmp_dir_fastalign_{str(uuid.uuid4().hex)}")
 
     assert (
         len(source_paths) == len(target_paths) == len(output_names)
@@ -50,7 +52,9 @@ def generate_word_alignments_fast_align(
 
         lines.append(source_lines)
     if source_parallel_corpus and target_parallel_corpus:
-        for source_path, target_path in zip(source_parallel_corpus, target_parallel_corpus):
+        for source_path, target_path in zip(
+            source_parallel_corpus, target_parallel_corpus
+        ):
             source_lines: int = count_lines(source_path)
             target_lines: int = count_lines(target_path)
             assert source_lines == target_lines, (

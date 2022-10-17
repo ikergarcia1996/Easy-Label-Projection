@@ -21,13 +21,14 @@ def generate_word_alignments_awesome(
     train_model = False
     if tmp_dir is None:
         train_model = True
-        tmp_dir = f"awesome_model_{str(uuid.uuid4().hex)}"
+        tmp_dir = os.path.join(output_dir, f"awesome_model_{str(uuid.uuid4().hex)}")
     else:
-        remove_tmp_dir = False
-        print(
-            f"You provided a pretrained awesome model {tmp_dir} and the remove_tmp_dir flag is set to True. "
-            f"To avoid removing the model by mistake, we will set the flag to False."
-        )
+        if remove_tmp_dir:
+            remove_tmp_dir = False
+            print(
+                f"You provided a pretrained awesome model {tmp_dir} and the remove_tmp_dir flag is set to True. "
+                f"To avoid removing the model by mistake, we will set the flag to False."
+            )
 
     assert (
         len(source_paths) == len(target_paths) == len(output_names)
