@@ -59,8 +59,6 @@ python3 annotation_projection.py \
 --do_simalign 
 ````
 
-### Parameter description
-
 ### Source datasets:
 Source datasets in TSV format (see [sample/en.absa.test.tsv](sample/en.absa.test.tsv) for an example).
 Our code supports IOB/IOB2/BILOU encoding, but we have tested it mainly with IOB2, so we recommend using it.
