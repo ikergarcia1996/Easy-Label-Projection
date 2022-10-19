@@ -10,7 +10,7 @@
 <br>
 </p>
 
->Looking for our manually/automatically projected ABSA/CoNLL dataset? See [data/](data/)
+>Looking for our manually/automatically projected ABSA/CoNLL datasets? See [data/](data/)
 
 
 This repository contains the code to easily project labels from one dataset into another. You can automatically generate 
