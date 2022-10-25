@@ -6,7 +6,7 @@
 
 Please, read our paper for more info: https://arxiv.org/abs/2210.12623
 
-If you use this dataset please cite the original authors:
+If you use this dataset please cite [our paper](https://arxiv.org/abs/2210.12623) the original authors:
 https://aclanthology.org/S16-1002/
 
 The data was first released here: https://alt.qcri.org/semeval2016/task5/
