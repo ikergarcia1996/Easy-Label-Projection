@@ -138,3 +138,16 @@ language of the target dataset. Both datasets should have the same number of sen
 --source_augmentation /path/to/source_augmentation.txt
 --target_augmentation /path/to/target_augmentation.txt
 ````
+## Generate word alignments
+If you only want to generate word alignments, you can use the "generate_alignments.py" script.
+This script has the same parameters as the "annotation_projection.py" script, but the source and target datasets
+should be in txt format (one sentence per line). The output will be a ".talp" file with the alignments.
+
+````commandline
+python3 annotation_projection.py \
+--source_test sample/en.txt \
+--target_test sample/es.txt \
+--output_dir sample/output/ \
+--output_name en2es_absa_test \
+--do_simalign 
+````
