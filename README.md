@@ -45,19 +45,18 @@ If you use this software please cite
 
 ## Installation
 This code requires: 
-
+````
 Python 3.6 or higher
 PyTorch
 tqdm
 ````
-
 You will need to install each of the alignment tools separately. You will find
 a README.md file in each of the folders with the instructions to install them.
 You don't need to install all of them, just the ones you want to use. I recommend
 using SimAlign or AWESOME. SimAlign is much faster than AWESOME, it doesn't require training. 
 AWESOME requires finetuning (can take many hours) and a GPU with >8Gb VRAM , but it is more accurate.
 
-If you use our software, please cite our paper and the alignments methods you use :blush:
+If you use our software, please cite [our paper](https://arxiv.org/abs/2210.12623) and the alignments methods you use :blush:
 
 ## How-To 
 This is a sample projection run to test the system.
