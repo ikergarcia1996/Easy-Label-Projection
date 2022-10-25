@@ -144,7 +144,7 @@ This script has the same parameters as the "annotation_projection.py" script, bu
 should be in txt format (one sentence per line). The output will be a ".talp" file with the alignments.
 
 ````commandline
-python3 annotation_projection.py \
+python3 generate_alignments.py \
 --source_test sample/en.txt \
 --target_test sample/es.txt \
 --output_dir sample/output/ \
