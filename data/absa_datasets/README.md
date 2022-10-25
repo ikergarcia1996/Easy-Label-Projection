@@ -4,7 +4,7 @@
 - automatic_projections: Automatic translation and projection of the original datasets. Silver data.
 - manual_projection: Automatic translated datasets manually projected. Gold data.
 
-Please, read our paper for more info: ---
+Please, read our paper for more info: https://arxiv.org/abs/2210.12623
 
 If you use this dataset please cite the original authors:
 https://aclanthology.org/S16-1002/
