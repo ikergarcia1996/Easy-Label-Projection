@@ -30,9 +30,22 @@ We currently support:
 ## Performance of projection methods
 <img src="github_images/TestAlignments.png" alt="Demo" width="600"/>
 
+## Citation
+If you use this software please cite
+````
+@misc{garcíaferrero2022model,
+      title={Model and Data Transfer for Cross-Lingual Sequence Labelling in Zero-Resource Settings}, 
+      author={Iker García-Ferrero and Rodrigo Agerri and German Rigau},
+      year={2022},
+      eprint={2210.12623},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+````
+
 ## Installation
 This code requires: 
-````
+
 Python 3.6 or higher
 PyTorch
 tqdm
