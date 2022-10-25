@@ -3,7 +3,7 @@
 - original: Conll 2002/2003 and Evalita 2009 original datasets. tsv format.
 - automatic_projections: Automatic translation and projection of the original datasets. Silver data.
 
-Please, read our paper for more info: ---
+Please, read our paper for more info: https://arxiv.org/abs/2210.12623
 
 
 The data was first released here: 
@@ -11,7 +11,8 @@ The data was first released here:
 - Conll 2003: https://www.clips.uantwerpen.be/conll2003/ner/
 - Evalita 2009: https://www.evalita.it/campaigns/evalita-2009/tasks/entity-recognition/
 
-If you use this dataset please cite the original authors:
+If you use this dataset please cite [our paper](https://arxiv.org/abs/2210.12623) the original authors: https://aclanthology.org/S16-1002/
+
 
 ```bibtex
 @inproceedings{tjong-kim-sang-de-meulder-2003-introduction,
