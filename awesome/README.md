@@ -14,7 +14,7 @@ See the official repository for installation instructions: https://github.com/ne
 > Note: Newest versions of Nvidia Apex library (for fp16 training) cause errors with AWESOME. As a quick workaround 
 > you can download Apex from github [https://github.com/NVIDIA/apex](https://github.com/NVIDIA/apex) then go to 
 > apex/amp/utils.py and and comment/remove lines 95-99. Then install Apex as usual (pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./ or pip install -v --disable-pip-version-check --no-cache-dir ./ for a python-only build). This workaround is not ideal,
-> but I have successfully used it. The other option is uninstalling Apex and use native PyTorch AMP (you just need to have pytorch 1.6 or higher installed).
+> but I have successfully used it. 
 
 In short, you can install AWESOME using the following commands:
 ```commandline
