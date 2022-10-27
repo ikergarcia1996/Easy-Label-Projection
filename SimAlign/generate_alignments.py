@@ -2,7 +2,6 @@
 # Adapted with minor changes from https://github.com/cisnlp/simalign/blob/master/examples/align_files.py
 
 import regex
-import codecs
 import torch.nn.functional as F
 import torch.utils.data
 from simalign.simalign import *
@@ -105,7 +104,7 @@ def generate_word_alignments_simalign(
     for path in original_paths:
         corpus = [
             line.rstrip().strip()
-            for line in codecs.open(path, "r", "utf-8").readlines()
+            for line in open(path, "r", encoding="utf8").readlines()
         ]
         corpus = [
             regex.sub("\\p{C}+", "", regex.sub("\\p{Separator}+", " ", line)).strip()
