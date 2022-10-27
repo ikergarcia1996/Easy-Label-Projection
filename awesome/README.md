@@ -13,7 +13,7 @@ If you get OOM errors, set batch size to 1 with 8 gradient accumulation steps. T
 See the official repository for installation instructions: https://github.com/neulab/awesome-align#dependencies
 > Note: Newest versions of Nvidia Apex library (for fp16 training) cause errors with AWESOME. As a quick workaround 
 > you can download Apex from github [https://github.com/NVIDIA/apex](https://github.com/NVIDIA/apex) then go to 
-> apex/amp/utils.py and and comment/remove lines 95-99. Then install Apex as usual. This workaround is not ideal,
+> apex/amp/utils.py and and comment/remove lines 95-99. Then install Apex as usual (pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./). This workaround is not ideal,
 > but I have successfully used it. The other option is uninstalling Apex and use native PyTorch AMP (you just need to have pytorch 1.6 or higher installed).
 
 In short, you can install AWESOME using the following commands:
