@@ -27,8 +27,9 @@ def sentence_projection(
     remove_puncs: bool = True,  # If a source word is aligned to a punctuation mark, we remove the alignment.
     # Use True if you are projection named entities or labels with a small number of words.
     # Use false for argumentation datasets and datasets in which the labels are long sentences.
-    fill_gap_size: int = 1,  # If the projected label is split in two or more parts, we fill the gap if the gap size is less or equal than fill_gap_size.
-    # Else we will choose the largest label and remove the other part. Use True 1 if you are projection named entities or labels with a small number of words.
+    fill_gap_size: int = 1,  # If the projected label is split in two or more parts, we fill the gap if the gap size is
+    # less or equal than fill_gap_size.  Else we will choose the largest label and remove the other part.
+    # Use True 1 if you are projection named entities or labels with a small number of words.
     # Use a larger value for argumentation datasets and datasets in which the labels are long sentences.
 ) -> List[str]:
 
