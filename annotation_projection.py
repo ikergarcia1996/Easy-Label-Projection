@@ -371,7 +371,7 @@ def run_projection(
     if do_mgiza:
         alignment_list.append("mgiza")
     if do_fastalign:
-        alignment_list.append("fastalign")
+        alignment_list.append("fast_align")
     if do_simalign:
         alignment_list.append("simalign")
     if do_awesome:
@@ -389,7 +389,7 @@ def run_projection(
 
     for alignment_method in alignment_list:
         for dataset_split in dataset_list:
-            if alignment_method == "mgiza" or alignment_method == "fastalign":
+            if alignment_method == "mgiza" or alignment_method == "fast_align":
                 alignments_path = os.path.join(
                     output_dir,
                     f"{output_name}.{alignment_method}.{dataset_split}.grow_diag_final-and.talp",
