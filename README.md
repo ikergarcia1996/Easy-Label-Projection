@@ -142,16 +142,17 @@ language of the target dataset. Both datasets should have the same number of sen
 ### Hyperparameters:
 There are two hyperparameters that you can modify to tune the projection algorithm to your dataset.
 
-Punctuation: By default we remove punctuation from the alignments to prevent projecting a word into a punctuation mark. 
-We do this because in the NER and Absa datasets a punctuation is never annotated, but this may not be the case for other datasets.
+***Punctuation***: By default we remove punctuation from the alignments to prevent projecting a word into a punctuation mark. 
+We do this because in the NER and ABSA datasets a punctuation is never annotated, but this may not be the case for other datasets.
 If you want to allow labels in the source sentence to be projected into punctuation marks, set the `--do_not_remove_puncs` flag. 
-i.e If `coffee` is projected into `café .`, we will not remove the `.` from the alignment.
+For example, If `coffee` is projected into `café .` we will remove the `.` from the alignment. 
+But we will not remove the `.` if the flag `--do_not_remove_puncs` is set.
 
-Gaps in the alignments: If a label in the source sentence is split in two or more parts in the target sentence, we will
-fill the gap considering the unlabelled words between the parts as labelled word with the same class if the gap
-is equal or lower than "--fill_gap_size" words (by default 1). i.e if we project a label and we get the following labels:  
+***Gaps in the alignments***: If a label in the source sentence is split in two or more parts in the target sentence, we will
+fill the gap considering the unlabelled words between the parts as labelled words with the same class if the gap
+is equal or lower than "--fill_gap_size" words (by default 1). For example, if we project a label and we get the following labels:  
 `O B-LOC I-LOC O I-LOC O O` we will fill the gap and get `O B-LOC I-LOC I-LOC I-LOC O O`. 
-Use True 1 if you are projection named entities or labels with a small number of words. 
+Use True 1 if you are projecting named entities or labels with a small number of words. 
 Use a larger value for argumentation datasets and datasets in which the labels are long sentences.
 
 ````commandline
