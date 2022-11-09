@@ -257,9 +257,11 @@ def dataset_projection(
         f"alignments_path: {alignments_path}.\n"
         f"batch_size: {batch_size}.\n"
         f"output_path:{output_path}.\n"
+        f"remove_puncs: {remove_puncs}.\n"
+        f"fill_gap_size: {fill_gap_size}.\n"
     )
-    if not os.path.exists(os.path.dirname(output_path)):
-        os.makedirs(os.path.dirname(output_path))
+
+    os.makedirs(os.path.abspath(os.path.dirname(output_path)), exist_ok=True)
 
     data_loader = ProjectionDataloader(
         source_tsv=source_dataset,
