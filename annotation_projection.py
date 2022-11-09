@@ -577,7 +577,7 @@ if __name__ == "__main__":
         default=1,
         type=int,
         help="If the projected label is split in two or more parts, we fill the gap if the gap size is less or equal "
-        "than fill_gap_size. Else we will choose the largest label and remove the other part. "
+        "than fill_gap_size. Else shouldwe will choose the largest label and remove the other part. "
         "Use True 1 if you are projection named entities or labels with a small number of words. "
         "Use a larger value for argumentation datasets and datasets in which the labels are long sentences.",
     )
@@ -586,7 +586,7 @@ if __name__ == "__main__":
         "--use_existing_alignments",
         action="store_true",
         help="If set, the script will use the existing alignments in the output directory instead of generating "
-        "new ones. You should use the same --output_dir and --output_name as the previous run and the same "
+        "new ones. You must use the same --output_dir and --output_name as the previous run and the same "
         "train, dev and test files.",
     )
 
