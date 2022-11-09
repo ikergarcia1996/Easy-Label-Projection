@@ -14,7 +14,7 @@
 
 
 This repository contains the code to easily project labels from one dataset into another. You can automatically generate 
-dataset for languages for which you do not have any labelled data 🥳  
+datasets for languages for which you do not have any labelled data 🥳  
 We currently support:
 - [mGiza (giza++)](http://www2.statmt.org/moses/giza/GIZA++.html)
 - [Fast Align](https://aclanthology.org/N13-1073.pdf)
