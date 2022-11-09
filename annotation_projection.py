@@ -389,7 +389,7 @@ def run_projection(
 
     for alignment_method in alignment_list:
         for dataset_split in dataset_list:
-            if alignment_method == "mgiza" or alignment_method == "fast_align":
+            if alignment_method == "mgiza" or alignment_method == "fastalign":
                 alignments_path = os.path.join(
                     output_dir,
                     f"{output_name}.{alignment_method}.{dataset_split}.grow_diag_final-and.talp",
