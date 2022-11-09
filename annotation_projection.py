@@ -250,6 +250,8 @@ def run_projection(
     do_awesome: bool = False,
     remove_awesome_model: bool = True,
     awesome_model_path: str = None,
+    remove_puncs: bool = False,
+    fill_gap_size: int = 1,
 ):
     """
     Perform annotation projection for the given datasets.
@@ -269,6 +271,13 @@ def run_projection(
     :param bool do_awesome: Whether to generate word alignments with awesome.
     :param bool remove_awesome_model: Whether to remove the trained awesome model after the alignment generation.
     :param str awesome_model_path: Path to a pretrained awesome model.
+    :param bool remove_puncs: If a source word is aligned to a punctuation mark, we remove the alignment.
+    Use True if you are projection named entities or labels with a small number of words.
+    Use false for argumentation datasets and datasets in which the labels are long sentences.
+    :param int fill_gap_size: If the projected label is split in two or more parts, we fill the gap if the gap size is
+    less or equal than fill_gap_size. Else we will choose the largest label and remove the other part.
+    Use True 1 if you are projection named entities or labels with a small number of words.
+    Use a larger value for argumentation datasets and datasets in which the labels are long sentences.
     """
 
     if not os.path.exists(output_dir):
@@ -429,6 +438,8 @@ def run_projection(
                 output_path=os.path.join(
                     output_dir, f"{output_name}.{alignment_method}.{dataset_split}.tsv"
                 ),
+                remove_puncs=remove_puncs,
+                fill_gap_size=fill_gap_size,
             )
 
             output_files.append(
@@ -542,6 +553,24 @@ if __name__ == "__main__":
         default=None,
         type=str,
         help="If provided, the path to a pretrained awesome model",
+    )
+
+    parser.add_argument(
+        "--do_not_remove_puncs",
+        action="store_false",
+        help="If a source word is aligned to a punctuation mark, we remove the alignment. "
+        "Do not set this flag if you are projection named entities or labels with a small number of words. "
+        "Use false for argumentation datasets and datasets in which the labels are long sentences.",
+    )
+
+    parser.add_argument(
+        "--fill_gap_size",
+        default=1,
+        type=int,
+        help="If the projected label is split in two or more parts, we fill the gap if the gap size is less or equal "
+        "than fill_gap_size. Else we will choose the largest label and remove the other part. "
+        "Use True 1 if you are projection named entities or labels with a small number of words. "
+        "Use a larger value for argumentation datasets and datasets in which the labels are long sentences.",
     )
 
     args = parser.parse_args()
