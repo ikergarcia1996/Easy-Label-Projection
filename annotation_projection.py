@@ -250,6 +250,9 @@ def run_projection(
     do_awesome: bool = False,
     remove_awesome_model: bool = True,
     awesome_model_path: str = None,
+    remove_puncs: bool = True,
+    fill_gap_size: int = 1,
+    use_existing_alignments: bool = False,
 ):
     """
     Perform annotation projection for the given datasets.
@@ -269,6 +272,16 @@ def run_projection(
     :param bool do_awesome: Whether to generate word alignments with awesome.
     :param bool remove_awesome_model: Whether to remove the trained awesome model after the alignment generation.
     :param str awesome_model_path: Path to a pretrained awesome model.
+    :param bool remove_puncs: If a source word is aligned to a punctuation mark, we remove the alignment.
+    Use True if you are projection named entities or labels with a small number of words.
+    Use false for argumentation datasets and datasets in which the labels are long sentences.
+    :param int fill_gap_size: If the projected label is split in two or more parts, we fill the gap if the gap size is
+    less or equal than fill_gap_size. Else we will choose the largest label and remove the other part.
+    Use True 1 if you are projection named entities or labels with a small number of words.
+    Use a larger value for argumentation datasets and datasets in which the labels are long sentences.
+    :param bool use_existing_alignments: Whether to use existing word alignments instead of generating new ones. You
+    must use the same --output_dir and --output_name as the one used to generate the word alignments. You must
+    also use the same train, dev and test files.
     """
 
     if not os.path.exists(output_dir):
@@ -348,24 +361,29 @@ def run_projection(
             f"Target ({target_augmentation}): {lines_target}"
         )
 
-    generate_alignments(
-        source_train=source_train_txt,
-        target_train=target_train,
-        source_dev=source_dev_txt,
-        target_dev=target_dev,
-        source_test=source_test_txt,
-        target_test=target_test,
-        source_augmentation=source_augmentation,
-        target_augmentation=target_augmentation,
-        output_dir=output_dir,
-        output_name=output_name,
-        do_fastalign=do_fastalign,
-        do_mgiza=do_mgiza,
-        do_simalign=do_simalign,
-        do_awesome=do_awesome,
-        remove_awesome_model=remove_awesome_model,
-        awesome_model_path=awesome_model_path,
-    )
+    if not use_existing_alignments:
+        generate_alignments(
+            source_train=source_train_txt,
+            target_train=target_train,
+            source_dev=source_dev_txt,
+            target_dev=target_dev,
+            source_test=source_test_txt,
+            target_test=target_test,
+            source_augmentation=source_augmentation,
+            target_augmentation=target_augmentation,
+            output_dir=output_dir,
+            output_name=output_name,
+            do_fastalign=do_fastalign,
+            do_mgiza=do_mgiza,
+            do_simalign=do_simalign,
+            do_awesome=do_awesome,
+            remove_awesome_model=remove_awesome_model,
+            awesome_model_path=awesome_model_path,
+        )
+    else:
+        print(
+            f"--use_existing_alignments is set to True. We will attempt to use the existing word alignments."
+        )
 
     alignment_list = []
     if do_mgiza:
@@ -429,6 +447,8 @@ def run_projection(
                 output_path=os.path.join(
                     output_dir, f"{output_name}.{alignment_method}.{dataset_split}.tsv"
                 ),
+                remove_puncs=remove_puncs,
+                fill_gap_size=fill_gap_size,
             )
 
             output_files.append(
@@ -544,6 +564,32 @@ if __name__ == "__main__":
         help="If provided, the path to a pretrained awesome model",
     )
 
+    parser.add_argument(
+        "--do_not_remove_puncs",
+        action="store_false",
+        help="If a source word is aligned to a punctuation mark, we remove the alignment. "
+        "Do not set this flag if you are projection named entities or labels with a small number of words. "
+        "Use false for argumentation datasets and datasets in which the labels are long sentences.",
+    )
+
+    parser.add_argument(
+        "--fill_gap_size",
+        default=1,
+        type=int,
+        help="If the projected label is split in two or more parts, we fill the gap if the gap size is less or equal "
+        "than fill_gap_size. Else shouldwe will choose the largest label and remove the other part. "
+        "Use True 1 if you are projection named entities or labels with a small number of words. "
+        "Use a larger value for argumentation datasets and datasets in which the labels are long sentences.",
+    )
+
+    parser.add_argument(
+        "--use_existing_alignments",
+        action="store_true",
+        help="If set, the script will use the existing alignments in the output directory instead of generating "
+        "new ones. You must use the same --output_dir and --output_name as the previous run and the same "
+        "train, dev and test files.",
+    )
+
     args = parser.parse_args()
 
     run_projection(
@@ -563,4 +609,7 @@ if __name__ == "__main__":
         do_awesome=args.do_awesome,
         remove_awesome_model=args.remove_awesome_model,
         awesome_model_path=args.awesome_model_path,
+        remove_puncs=args.do_not_remove_puncs,
+        fill_gap_size=args.fill_gap_size,
+        use_existing_alignments=args.use_existing_alignments,
     )

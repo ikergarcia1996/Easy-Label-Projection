@@ -5,6 +5,7 @@ from projection.dataset import ProjectionDataloader
 import math
 from tqdm.auto import tqdm
 import string
+from functools import partial
 
 puncs = set(string.punctuation)
 
@@ -23,6 +24,13 @@ def sentence_projection(
     source_tags_ids: List[List[int]],
     target_words: List[str],
     alignments: Dict,
+    remove_puncs: bool = True,  # If a source word is aligned to a punctuation mark, we remove the alignment.
+    # Use True if you are projection named entities or labels with a small number of words.
+    # Use false for argumentation datasets and datasets in which the labels are long sentences.
+    fill_gap_size: int = 1,  # If the projected label is split in two or more parts, we fill the gap if the gap size is
+    # less or equal than fill_gap_size.  Else we will choose the largest label and remove the other part.
+    # Use True 1 if you are projection named entities or labels with a small number of words.
+    # Use a larger value for argumentation datasets and datasets in which the labels are long sentences.
 ) -> List[str]:
 
     assert len(source_tags_type) == len(source_tags_ids)
@@ -55,30 +63,32 @@ def sentence_projection(
             target_tags_types.append(source_tag_type)
 
     # REMOVE TAGS THAT ARE PUNCTUATION
+    if remove_puncs:
+        for target_tag_idx in range(len(target_tags_ids) - 1, -1, -1):
+            target_tags_c = target_tags_ids[target_tag_idx].copy()
+            for tag_idx in range(len(target_tags_ids[target_tag_idx]) - 1, -1, -1):
+                try:
+                    tword = target_words[
+                        target_tags_ids[target_tag_idx][tag_idx]
+                    ].strip()
+                except IndexError:
+                    raise IndexError(
+                        f"\ntarget_tags_ids: {target_tags_ids}\n"
+                        f"target_tags_c: {target_tags_c}\n"
+                        f"target_tags_ids[target_tag_idx]: {target_tags_ids[target_tag_idx]}\n"
+                        f"tag_idx: {tag_idx}\n"
+                        f"target_tag_idx:{target_tag_idx}\n"
+                        f"source_words: {source_words}\n"
+                        f"target_words: {target_words}\n"
+                    )
+                if all([char in puncs for char in tword]):
+                    # print(f"Warning: Removing word: {tword} from projected tag. ")
+                    del target_tags_ids[target_tag_idx][tag_idx]
 
-    for target_tag_idx in range(len(target_tags_ids) - 1, -1, -1):
-        target_tags_c = target_tags_ids[target_tag_idx].copy()
-        for tag_idx in range(len(target_tags_ids[target_tag_idx]) - 1, -1, -1):
-            try:
-                tword = target_words[target_tags_ids[target_tag_idx][tag_idx]].strip()
-            except IndexError:
-                raise IndexError(
-                    f"\ntarget_tags_ids: {target_tags_ids}\n"
-                    f"target_tags_c: {target_tags_c}\n"
-                    f"target_tags_ids[target_tag_idx]: {target_tags_ids[target_tag_idx]}\n"
-                    f"tag_idx: {tag_idx}\n"
-                    f"target_tag_idx:{target_tag_idx}\n"
-                    f"source_words: {source_words}\n"
-                    f"target_words: {target_words}\n"
-                )
-            if all([char in puncs for char in tword]):
-                # print(f"Warning: Removing word: {tword} from projected tag. ")
-                del target_tags_ids[target_tag_idx][tag_idx]
-
-        if len(target_tags_ids[target_tag_idx]) == 0:
-            del target_tags_ids[target_tag_idx]
-            del target_tags_types[target_tag_idx]
-            # print(f"Warning: Removing tag: {[target_words[i] for i in target_tags_c]}")
+            if len(target_tags_ids[target_tag_idx]) == 0:
+                del target_tags_ids[target_tag_idx]
+                del target_tags_types[target_tag_idx]
+                # print(f"Warning: Removing tag: {[target_words[i] for i in target_tags_c]}")
 
     # FIX DISCONTINUOUS SPANS
 
@@ -97,7 +107,7 @@ def sentence_projection(
 
         i = 0
         while i < len(groups) - 1:
-            if groups[i + 1][-1] - groups[i][0] <= 2:
+            if groups[i + 1][-1] - groups[i][0] <= (fill_gap_size + 1):
 
                 groups[i] = (
                     groups[i]
@@ -174,6 +184,8 @@ def sentences_projection(
     sources_tags_ids: List[List[List[int]]],
     target_words: List[List[str]],
     alignments: List[Dict],
+    remove_puncs: bool = True,
+    fill_gap_size: int = 1,
 ) -> str:
 
     assert (
@@ -212,6 +224,8 @@ def sentences_projection(
                 source_tags_ids=source_tags_ids,
                 target_words=target_words,
                 alignments=alignments,
+                remove_puncs=remove_puncs,
+                fill_gap_size=fill_gap_size,
             )
 
             assert len(target_words) == len(target_tags)
@@ -234,6 +248,8 @@ def dataset_projection(
     alignments_path: str,
     batch_size: int,
     output_path: str,
+    remove_puncs: bool = True,
+    fill_gap_size: int = 1,
 ):
     print(
         f"Datset projection:\n"
@@ -242,9 +258,11 @@ def dataset_projection(
         f"alignments_path: {alignments_path}.\n"
         f"batch_size: {batch_size}.\n"
         f"output_path:{output_path}.\n"
+        f"remove_puncs: {remove_puncs}.\n"
+        f"fill_gap_size: {fill_gap_size}.\n"
     )
-    if not os.path.exists(os.path.dirname(output_path)):
-        os.makedirs(os.path.dirname(output_path))
+
+    os.makedirs(os.path.abspath(os.path.dirname(output_path)), exist_ok=True)
 
     data_loader = ProjectionDataloader(
         source_tsv=source_dataset,
@@ -262,6 +280,10 @@ def dataset_projection(
 
     projections = []
 
+    projection_function = partial(
+        sentences_projection, remove_puncs=remove_puncs, fill_gap_size=fill_gap_size
+    )
+
     with open(output_path, "w+", encoding="utf8") as output_file, tqdm(
         total=data_loader_len, desc="Annotation projection"
     ) as pbar:
@@ -275,7 +297,7 @@ def dataset_projection(
             with multiprocessing.Pool(os.cpu_count()) as pool:
 
                 async_job = pool.starmap_async(
-                    sentences_projection,
+                    projection_function,
                     zip(
                         batch(source_words, n=os.cpu_count()),
                         batch(tags_type, n=os.cpu_count()),
