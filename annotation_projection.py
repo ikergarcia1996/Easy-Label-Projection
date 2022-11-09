@@ -586,7 +586,7 @@ if __name__ == "__main__":
         "--use_existing_alignments",
         action="store_true",
         help="If set, the script will use the existing alignments in the output directory instead of generating "
-        "new ones. You should use the same --outpur_dir and --output_name as the previous run and the same "
+        "new ones. You should use the same --output_dir and --output_name as the previous run and the same "
         "train, dev and test files.",
     )
 
