@@ -250,7 +250,7 @@ def run_projection(
     do_awesome: bool = False,
     remove_awesome_model: bool = True,
     awesome_model_path: str = None,
-    remove_puncs: bool = False,
+    remove_puncs: bool = True,
     fill_gap_size: int = 1,
     use_existing_alignments: bool = False,
 ):
@@ -609,5 +609,7 @@ if __name__ == "__main__":
         do_awesome=args.do_awesome,
         remove_awesome_model=args.remove_awesome_model,
         awesome_model_path=args.awesome_model_path,
+        remove_puncs=args.do_not_remove_puncs,
+        fill_gap_size=args.fill_gap_size,
         use_existing_alignments=args.use_existing_alignments,
     )
