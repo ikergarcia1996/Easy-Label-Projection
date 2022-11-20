@@ -26,7 +26,7 @@ def generate_alignments(
     do_simalign: bool = True,
     do_awesome: bool = False,
     remove_awesome_model: bool = True,
-    awesome_model_path: str = None,
+    model_name_or_path: str = "bert-base-multilingual-cased",
 ):
 
     """
@@ -46,7 +46,7 @@ def generate_alignments(
     :param bool do_simalign: Whether to generate word alignments with simalign.
     :param bool do_awesome: Whether to generate word alignments with awesome.
     :param bool remove_awesome_model: Whether to remove the trained awesome model after the alignment generation.
-    :param str awesome_model_path: Path to a pretrained awesome model.
+    :param str model_name_or_path: Hugginface Hub model name or path to a local model. Used for simalign and awesome.
     """
 
     # 1) Sanity checks
@@ -167,6 +167,7 @@ def generate_alignments(
                 source_file=source_train,
                 target_file=target_train,
                 output=os.path.join(output_dir, f"{output_name}.simalign.train"),
+                model=model_name_or_path,
             )
 
         if source_dev and target_dev:
@@ -181,6 +182,7 @@ def generate_alignments(
                 source_file=source_dev,
                 target_file=target_dev,
                 output=os.path.join(output_dir, f"{output_name}.simalign.dev"),
+                model=model_name_or_path,
             )
 
         if source_test and target_test:
@@ -195,6 +197,7 @@ def generate_alignments(
                 source_file=source_test,
                 target_file=target_test,
                 output=os.path.join(output_dir, f"{output_name}.simalign.test"),
+                model=model_name_or_path,
             )
 
     if do_awesome:
@@ -228,8 +231,8 @@ def generate_alignments(
             else None,
             output_names=output_names,
             output_dir=output_dir,
-            remove_tmp_dir=False if awesome_model_path else remove_awesome_model,
-            tmp_dir=awesome_model_path,
+            remove_tmp_dir=remove_awesome_model,
+            model_name_or_path=model_name_or_path,
         )
 
 
@@ -249,7 +252,7 @@ def run_projection(
     do_simalign: bool = True,
     do_awesome: bool = False,
     remove_awesome_model: bool = True,
-    awesome_model_path: str = None,
+    model_name_or_path: str = "bert-base-multilingual-cased",
     remove_puncs: bool = True,
     fill_gap_size: int = 1,
     use_existing_alignments: bool = False,
@@ -271,7 +274,7 @@ def run_projection(
     :param bool do_simalign: Whether to generate word alignments with simalign.
     :param bool do_awesome: Whether to generate word alignments with awesome.
     :param bool remove_awesome_model: Whether to remove the trained awesome model after the alignment generation.
-    :param str awesome_model_path: Path to a pretrained awesome model.
+    :param str model_name_or_path: Hugginface Hub model name or path to a local model. Used for simalign and awesome.
     :param bool remove_puncs: If a source word is aligned to a punctuation mark, we remove the alignment.
     Use True if you are projection named entities or labels with a small number of words.
     Use false for argumentation datasets and datasets in which the labels are long sentences.
@@ -378,7 +381,7 @@ def run_projection(
             do_simalign=do_simalign,
             do_awesome=do_awesome,
             remove_awesome_model=remove_awesome_model,
-            awesome_model_path=awesome_model_path,
+            model_name_or_path=model_name_or_path,
         )
     else:
         print(
@@ -558,10 +561,10 @@ if __name__ == "__main__":
         help="Whether to remove the trained awesome model after the alignment is generated",
     )
     parser.add_argument(
-        "--awesome_model_path",
-        default=None,
+        "--model_name_or_path",
+        default="bert-base-multilingual-cased",
         type=str,
-        help="If provided, the path to a pretrained awesome model",
+        help="Huggingface Hub model name or path to a local model",
     )
 
     parser.add_argument(
@@ -608,7 +611,7 @@ if __name__ == "__main__":
         do_simalign=args.do_simalign,
         do_awesome=args.do_awesome,
         remove_awesome_model=args.remove_awesome_model,
-        awesome_model_path=args.awesome_model_path,
+        model_name_or_path=args.model_name_or_path,
         remove_puncs=args.do_not_remove_puncs,
         fill_gap_size=args.fill_gap_size,
         use_existing_alignments=args.use_existing_alignments,

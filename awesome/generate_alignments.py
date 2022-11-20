@@ -16,6 +16,7 @@ def generate_word_alignments_awesome(
     target_parallel_corpus: List[str] = None,
     tmp_dir: str = None,
     remove_tmp_dir: bool = True,
+    model_name_or_path: str = "bert-base-multilingual-cased",
 ):
 
     train_model = False
