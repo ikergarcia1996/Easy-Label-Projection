@@ -88,7 +88,9 @@ def generate_word_alignments_awesome(
         print("Train awesome...")
 
         train_awesome(
-            corpus_path=os.path.join(tmp_dir, "dataset.awesome"), output_dir=tmp_dir
+            corpus_path=os.path.join(tmp_dir, "dataset.awesome"),
+            output_dir=tmp_dir,
+            model_name_or_path=model_name_or_path,
         )
 
     for source_set_path, target_set_path, output_name in zip(
