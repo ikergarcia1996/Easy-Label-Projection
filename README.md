@@ -158,8 +158,8 @@ But we will not remove the `.` if the flag `--do_not_remove_puncs` is set.
 fill the gap considering the unlabelled words between the parts as labelled words with the same class if the gap
 is equal or lower than "--fill_gap_size" words (by default 1). For example, if we project a label and we get the following labels:  
 `O B-LOC I-LOC O I-LOC O O` we will fill the gap and get `O B-LOC I-LOC I-LOC I-LOC O O`. 
-Use True 1 if you are projecting named entities or labels with a small number of words. 
-Use a larger value for argumentation datasets and datasets in which the labels are long sentences.
+Use 1 if you are projecting named entities or labels with a small number of words. 
+Use a larger value for argumentation datasets and datasets in which long sentences are labeled. 
 
 ````commandline
 --fill_gap_size 1 \
