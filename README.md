@@ -47,6 +47,7 @@ If you use this software please cite
     pages = "6403--6416",
 }
 ````
+Remember that you must also cite the corresponding paper for the word-alignment generation method you use. 
 
 ## Installation
 This code requires: 
