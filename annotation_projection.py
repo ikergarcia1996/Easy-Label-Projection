@@ -1,8 +1,6 @@
 import os
-from fast_align.generate_alignments import generate_word_alignments_fast_align
-from mgiza.generate_alignments import generate_word_alignments_mgiza
-from SimAlign.generate_alignments import generate_word_alignments_simalign
-from awesome.generate_alignments import generate_word_alignments_awesome
+
+
 from typing import Optional, List
 from tokenization.conll2text import conll2text
 from tokenization.utils import count_lines
@@ -28,7 +26,6 @@ def generate_alignments(
     remove_awesome_model: bool = True,
     model_name_or_path: str = "bert-base-multilingual-cased",
 ):
-
     """
     Generate word alignments for the given datasets.
     :param str source_train: Path to the source language training dataset. A txt file, one sentence per line.
@@ -90,6 +87,7 @@ def generate_alignments(
         target_paths.append(target_test)
 
     if do_mgiza:
+        from mgiza.generate_alignments import generate_word_alignments_mgiza
 
         output_names = []
         if source_train:
@@ -123,6 +121,8 @@ def generate_alignments(
         )
 
     if do_fastalign:
+        from fast_align.generate_alignments import generate_word_alignments_fast_align
+
         output_names = []
         if source_train:
             output_names.append(output_name + ".fast_align.train")
@@ -155,6 +155,8 @@ def generate_alignments(
         )
 
     if do_simalign:
+        from SimAlign.generate_alignments import generate_word_alignments_simalign
+
         if source_train and target_train:
             print(
                 f"Generate word alignments SimAlign. "
@@ -201,6 +203,7 @@ def generate_alignments(
             )
 
     if do_awesome:
+        from awesome.generate_alignments import generate_word_alignments_awesome
 
         output_names = []
         if source_train:

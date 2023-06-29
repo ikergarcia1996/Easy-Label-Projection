@@ -1,18 +1,17 @@
-import spacy
-from spacy.lang.en import English
-from spacy.lang.es import Spanish
-from spacy.lang.de import German
-from spacy.lang.it import Italian
-from spacy.lang.nl import Dutch
-from spacy.lang.ca import Catalan
-from spacy.lang.eu import Basque
-from spacy.lang.fr import French
-from spacy.lang.ru import Russian
-from spacy.lang.tr import Turkish
-from spacy.tokenizer import Tokenizer
+def get_tokenizer(language: str):
+    import spacy
+    from spacy.lang.en import English
+    from spacy.lang.es import Spanish
+    from spacy.lang.de import German
+    from spacy.lang.it import Italian
+    from spacy.lang.nl import Dutch
+    from spacy.lang.ca import Catalan
+    from spacy.lang.eu import Basque
+    from spacy.lang.fr import French
+    from spacy.lang.ru import Russian
+    from spacy.lang.tr import Turkish
+    from spacy.tokenizer import Tokenizer
 
-
-def get_tokenizer(language: str) -> spacy.tokenizer.Tokenizer:
     if language == "en":
         nlp = English()
     elif language == "es":
@@ -42,8 +41,7 @@ def get_tokenizer(language: str) -> spacy.tokenizer.Tokenizer:
     return nlp.tokenizer
 
 
-def tokenize2conll(line: str, tokenizer: spacy.tokenizer.Tokenizer) -> str:
-
+def tokenize2conll(line: str, tokenizer) -> str:
     s = "".join(
         [f"{word} O\n" for word in tokenizer(line) if len(str(word).strip()) > 0]
     )
