@@ -1,5 +1,4 @@
 def get_tokenizer(language: str):
-    import spacy
     from spacy.lang.en import English
     from spacy.lang.es import Spanish
     from spacy.lang.de import German
@@ -10,7 +9,6 @@ def get_tokenizer(language: str):
     from spacy.lang.fr import French
     from spacy.lang.ru import Russian
     from spacy.lang.tr import Turkish
-    from spacy.tokenizer import Tokenizer
 
     if language == "en":
         nlp = English()
@@ -50,7 +48,7 @@ def tokenize2conll(line: str, tokenizer) -> str:
     return s
 
 
-def tokenize2text(line: str, tokenizer: spacy.tokenizer.Tokenizer) -> str:
+def tokenize2text(line: str, tokenizer) -> str:
     s = " ".join([str(word) for word in tokenizer(line)]) + "\n"
     return s
 
